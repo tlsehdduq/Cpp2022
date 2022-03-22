@@ -3,38 +3,45 @@
 //
 //공부할 내용  - 
 // C++은 자료를 어떻게 정렬하는가?
+// *, & - 원격조작 기능
+// 함수란?
 // 
-//		-두 값을 교환할 수 있는 함수를 작성하라 - 포인터로 해결해야.
-//		-포인터를 사용하는 이유는?
-//			-한 지역에서 다른 지역의 데이터를 원격조작하기 위해 사용한다.
 //-------------------------------------------------------------------------------------------------
 
 #include<iostream>
+#include<algorithm>
 #include"save.h"
 using namespace std;
+int f(const void*, const void*); //void 형식을 모르겠단 의미
 
-//C++에서 두 값을 교환하는 방법 -- reference(참조)를 사용하여 해결한다.
-void change(int&, int&);
-
-void change(int& p, int& q)
+int f(const void* a, const void* b) //const        
 {
-	int temp{ p };
+	int* p = (int*)a;
+	int* q = (int*)b;
 
-	p = q;
-	q = temp;
+	if (*p < *q)
+		return -1;
 
+	else if (*p > *q)
+		return 1;
+
+	return 0;
 }
-
-// [문제] 다음 코드를 보고 출력결과를 예상하라, 예상한 이유를 답지에 적어라.
 
 int main()
 {	
+	int a[]{ 3,1,2};
+	//오름차순으로 정렬하시오.:
+	//주의 - 이 코드는 STL시간에 배울것임 지금은 감상만하자.
+	// 
+	//qsort 함수는 메모리를 이해하는데 매우 좋은 함수이다. 시간내서 알아두자.
+	//qsort 함수는 어떤자료든 정렬하는 만능함수이다.
 
-	int a{ 10 }, b{ 20 };
-
-	change(a, b);					
-
-	cout << a << "," << b << endl;
+	qsort(a, size(a), sizeof(int), f);			//[]만 정렬 가능 
+	
+	for (int n : a)
+		cout << n << " ";
+	cout << endl;
 
 	save("1.cpp");
 }
