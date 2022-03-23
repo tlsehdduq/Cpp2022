@@ -1,42 +1,35 @@
 //-------------------------------------------------------------------------------------------------
-//                                                            3주 2일차                       
+//                                                            4주 1일차                       
 //
-//공부할 내용  - 
-//	const의 의미 - 메모리를 읽을 수는 있지만 쓸 수는 없다. 
-// void* - 메모리에 있는 원소의 자료형이 무엇인지 모를 때 사용한다.
+// 함수는 무엇인가? - 메모리 
+// 모든 함수들은 코드라는 지역에 저장
+// 이곳에 접근하기 위해 &, 주소를 이용
+//  - 실행 파일의 메모리 세그먼트 중에서 CODE에 기록되는 기계어들
+//  - 함수의 이름은 메모리의 시작번지를 의미한다.
+// auto - 컴파일러가 자료형을 유추하도록 한다.
+// 자료형의 크기 확인 - sizeof
+// 자료형 자체를 확인 - typeid(?).name();
 // 
 //-------------------------------------------------------------------------------------------------
 
 #include<iostream>
-#include<algorithm>
-#include<random>
 #include"save.h"
 using namespace std;
 
-default_random_engine dre;
-uniform_int_distribution<int>uid{1, 1000};
+// [정리] 내가 부를 일이 없지만 기능만 필요할 때 사용하는 이름없는 함수 lambda
+// ??? - 함수의 인자로 전달되어 ㅈ함수의 기능을 변경할 떄 람다를 사용한다.
+// qsort( , , ,오름차순)
+// qsort( , , ,내림차순)
 
 int main()
-{	
-	int a[1000];
-	for (int& num : a)
-		num = uid(dre);
+{
+	// [문제] 안녕 ? 난 람다라고 해! 를 출력하는 람다를 작성하고 호출하라..
+	// 함수는 어떻게 호출하나? - ()를 써서 호출한다.
+	// () -> function call operator(함수 호출 연산자)
+	auto f = []() {
+		cout << " 안녕? 난 람다라고해 ! " << endl;
+	};
+	cout << typeid(f()).name();
 
-	cout << "원래 데이터" << endl;
-
-	for (int num : a)
-		cout << num << " ";
-	cout << endl;
-	cout << endl;
-
-	qsort(a, size(a), sizeof(int), [](const void* a, const void* b) {
-		return *(int*)a - *(int*)b;
-		});
-	cout << "오름차순 정렬 후 " << endl;
-	cout << endl;
-
-	for (int num : a)
-		cout << num << " ";
-	cout << endl << endl;
 	save("1.cpp");
 }
