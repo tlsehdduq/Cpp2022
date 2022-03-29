@@ -1,56 +1,49 @@
 //-------------------------------------------------------------------------------------------------
-//                                                            4주 2일차         
-//   -----------------------------------------------------------------------------------------------            
-// C/C++ - 프로그래머가 메모리를 마음껏 다룰 수 있게 해준다. 
-// 
-// CODE
-// DATA
-// STACK
-// Free Store(HEAP) - 동적할당
-//				키워드 new로 메모리를 요청한다.
-//										할당받은 메모리를 사용한다.(read/write)
-//				키워드 delete로 메모리를 반환한다.
+//                                                            6주 2일차                    
+// class / struct - 사용자 정의 자료형
+//	- struct 와 class의 차이
+//    struct는 멤버변수를 감추지 않는다.
+//	   class는 멤버변수를 감추어 class  바깥에서 멤버변수에 접근하지 못한다.
+//    
+//		class - 정보 은닉(information hiding) 캡슐화		
+// class에서 멤버를 private으로 해야만 하는것을 이해 할 수 있는 예제 - 다음시간
 //-------------------------------------------------------------------------------------------------
 
 #include<iostream>
-#include<random>
+#include<thread>
 #include"save.h"
+
 using namespace std;
+//[[문제] 다음과 같은 기능을 갖는 class Bell을 코딩하라.
+//생성지 정수를 인자로 받아 저장한다.
+// play 함수를 호출하면 생성시 저장한 정수의 수만큼 벨소리를 연주한다.
+// 벨소리와 벨소리 사이의 간격은 1초로 한다.
+// 벨소리는 아스키 코드를 사용한다.
 
-//[문제] 사용자가 입력한 정수만큼 메모리를 확보하라.  (동적할당)
-//			 확보한 메모리를 랜덤값으로 채워라 (엔진/분포)
-//			 가장 큰 값을 찾아 화면에 출력하라/
-//			 이 과정을 사용자가 0이하의 수를 입력할때 까지 반복하라.			(20분)
-//
+class Bell {
 
-default_random_engine dre;
-uniform_int_distribution<int> uie;
+	int num{};
+
+public:
+	Bell(int n) :num{ n } {}
+
+	void play() {
+		for (int i = 0; i < num; i++) {
+			cout << '\7';
+			this_thread::sleep_for(1s);
+		}
+	}
+};
+
 
 int main()
 {
-		int num{};
-		int* p;		
-		int maxValue{ 0 };
-	while (true)
-	{
-		
-		cout << "정수를 입력하시오. : ";
-		cin >> num;
-		if (num <= 0)
-			break;
-	  p = new int[num];
+	cout << '\7' << endl;
+	
 
-		for (int i = 0; i < num; i++)
-		{
-			p[i] = uie(dre);
-		}
-		maxValue = 0;
-		for (int i = 0; i < num; ++i)
-			if (maxValue < p[i])
-				maxValue = p[i];
-		cout << maxValue << endl;
-		delete[] p;
-	}
+	Bell a{ 20 };
 
-	save("1.cpp");
+	a.play();						//벨소리 - 1초 - 벨소리 - 1초 - 벨소리 - 1초
+
+	save("1.cpp");	
 }
