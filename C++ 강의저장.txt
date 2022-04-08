@@ -12614,3 +12614,4233 @@ int main()
 	s2.show();
 	save("1.cpp");
 }
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:28:54 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	string a{ "안녕" }, b{ " 하세요" };
+
+	cout << a + b << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:32:29 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	STRING a{ "안녕" }, b{ " 하세요" };
+
+	cout << sizeof(cout) << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:35:17 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	cout << 1;
+	cout << typeid(cout).name() << endl;
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:35:42 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	cout << 1 << 2 << 3;
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:36:57 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	//cout << 1 << 2 << 3;
+
+	(cout.operator<<(1).operator<<(2).operator<<(3).operator<<(endl));
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:37:13 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	string s{ "안녕하세요" };
+	cout << s << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:41:19 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	string s{ "안녕하세요" };
+	
+	//cout.operator<<(s);			//왜 안될까?  string은 사용자정의자료형이라. 약속되있지않다.
+	//cout << s << endl;				//이건 왜될까?
+
+	operator<<(cout, s);
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:41:30 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+};
+
+int main()
+{
+	string s{ "안녕하세요" };
+	
+	//cout.operator<<(s);			//왜 안될까?  string은 사용자정의자료형이라. 약속되있지않다.
+	//cout << s << endl;				//이건 왜될까?
+
+	operator<<(cout, s);					//이러한 연산자가 숨어있기에 
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:49:25 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num;			//저장한 글자수
+	char* p;			//글자가 있는 메모리
+public:
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s{ "안녕하세요." };
+
+	cout << s << endl;
+
+	// 위 문장이 문제없이 실행되려면
+	// 1 . cout.operator<<(STRING) 함수가 존재하면된다. -->  절대 그럴수 X
+	// 2. ostream& operator(ostream&,const STRING&)
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:54:06 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	//STRING(const STRING& other) : num{ other.num } {
+	//	p = new char[num];
+
+	//	memcpy(p, other.p, num * sizeof(char));
+
+	//}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1;
+	STRING s2{ "표준과 STRING과 같은 동작을 하는 클래스" };
+
+	s1 = s2;
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	 
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:54:17 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	//클래스와 바깥 세상이 소통하기 위한 함수들
+	void show() {
+		for (int i = 0; i < num; i++) {
+			cout << p[i];
+		}
+		cout << endl;
+	}
+
+	//글자 수를 알려주는 getter  값을 읽기만 하기 떄문에 class에 위험하지 않다.
+	// 다른 말로 하면 멤버변수의 값이 변할 수가 없다는 것
+	// 이 상황을 더욱 명확하게 이 함수의 이용에게 알릴 수 있다면 좋겠다.
+	// =>멤버 함수에 한정사 const를 붙여 이 함수를 사용하더라도 멤버변수의 값이 변하지
+	//않음을 보증한다.
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1;
+	STRING s2{ "표준과 STRING과 같은 동작을 하는 클래스" };
+
+	s1 = s2;
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	 
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 9:59:45 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1;
+	STRING s2{ "표준과 STRING과 같은 동작을 하는 클래스" };
+
+	s1 = s2;
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	 
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:01:05 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "표준과 STRING과 같은 동작을 하는 클래스" };
+	STRING s2 = s1;
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	 
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:02:12 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "표준과 STRING과 같은 동작을 하는 클래스" };
+	STRING s2 = s1;
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	 
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:04:03 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	string s1{ "C 언어는 char*로 문자열을 다룬다." };
+	string s2{ " C++ 언어는 string 을 사용한다." };
+
+	string s3 = s1 + s2;
+	cout << s3 << endl;
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:04:36 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	string s1{ "C 언어는 char*로 문자열을 다룬다." };
+	string s2{ " C++ 언어는 string 을 사용한다." };
+
+	string s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:13:41 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:14:42 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:17:15 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:18:45 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 1일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+// 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+
+	STRING s3 = s1 + s2 + s1 + s2 + s1 +s2 + "이것도 더해진다고?";
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:46:47 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+	
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:52:24 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+	
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:52:56 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING s1{ "C 언어는 char*로 문자열을 다룬다." };
+	STRING s2{ " C++ 언어는 string 을 사용한다." };
+	
+	STRING s3 = s1 + s2;
+
+	cout << "s3의 글자 수  - " << s3.size() << endl;
+	cout << s3 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:55:07 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	int num[5]{ 3,1,4,5,2 };
+	
+	//내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](int a, int b) {
+		return a > b;
+		});
+	//정렬결과 출력
+
+	for (int n : num) {
+		cout << n << " ";
+	}
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:57:35 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING num[5]{ "333","1","4444","55555","22" };
+	
+	//글자 수 내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](STRING a, STRING b) {
+		return a.size() > b.size();
+		});
+	//정렬결과 출력
+
+	for (STRING n : num) {
+		cout << n << " ";
+	}
+	cout << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:58:20 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING num[5]{ "333","1","4444","55555","22" };
+	
+	//글자 수 내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+	//정렬결과 출력
+
+	for (STRING n : num) {
+		cout << n << " ";
+	}
+	cout << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:58:43 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING num[5]{ "333","1","4444","55555","22" };
+	
+	//글자 수 내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	//정렬결과 출력
+	cout << endl << endl << endl;
+
+	for (STRING n : num) {
+		cout << n << " ";
+	}
+	cout << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 10:59:04 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING num[5]{ "333","1","4444","55555","22" };
+	
+	//글자 수 내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	//정렬결과 출력
+	cout << endl << endl << endl;
+
+	for (const STRING& n : num) {
+		cout << n << " ";
+	}
+	cout << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:00:22 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+
+int main()
+{
+	STRING num[5]{ "333","1","4444","55555","22" };
+	
+	//글자 수 내림차순으로 num 을 정렬하시오.
+
+	sort(begin(num), end(num), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	//정렬결과 출력
+	cout << endl << endl << endl;
+
+	for (const STRING& n : num) {				//STRING& 스트링의 원본으로 꺼내오면 복사가 일어나지 않는다 , 쓸대없는 연산을 줄인다.
+		cout << n << " ";
+	}
+	cout << endl;
+	
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:06:10 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	string s1{ "나는 s1이 관리하는 자원입니다." };
+	string s2;
+	
+	cout << " s1 - " << s1 << endl;
+	cout << "s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:06:23 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+		// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+		 
+	}
+
+	size_t size() const {
+		return num;
+	}
+	
+friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	string s1{ "나는 s1이 관리하는 자원입니다." };
+	string s2 = s1;
+	
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:07:25 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	string s1{ "나는 s1이 관리하는 자원입니다." };
+	string s2 = move(s1);
+
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:10:21 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//	
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	string s1{ "나는 s1이 관리하는 자원입니다." };
+	string s2 = move(s1);     //static_cast<string&&>(s1);
+
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:39:20 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) : num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other) {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	STRING s1{ "나는 s1이 관리하는 자원입니다." };
+	STRING s2 = move(s1);     //static_cast<string&&>(s1);
+
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:40:20 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) : num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other) {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	STRING s1{ "나는 s1이 관리하는 자원입니다." };
+	STRING s2 = move(s1);     //static_cast<string&&>(s1);
+
+	s2 = move(s1);
+
+
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:40:41 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) : num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other) {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+
+int main()
+{
+	STRING s1{ "나는 s1이 관리하는 자원입니다." };
+	STRING s2;
+	s2 = move(s1);
+
+
+	cout << " s1 - " << s1 << endl;
+	cout << " s2 - " << s2 << endl;
+
+	save("1.cpp");
+}
+
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:51:53 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//		내가 만든 클래스가 자원을 할당받는 다면 (모든 이야기는 여기에서 시작)
+//				1. 생성자에서 자원을 할당받는다 ( RAII )
+//				2. 소멸자에서 자원을 반환한다.
+//				3. 복사 생성자에서 만들어 깊은 복사를 한다.
+//				4. 복사 할당연산자를 만들어 깊은 복사를 한다.
+//				5. 이동생성자를 만들어 복사보다 효율적인 동작이 되도록한다.
+//				6.이동할당연산자를 잊지말고 만들어야 한다.
+//				
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) : num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other) {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+//[문제] name을 길이 내림차순으로 정렬 한 후 
+// 화면에 출력하라.(20분)
+
+int main()
+{
+	STRING name[5]{ "파일","GIT","창","도움말","프로젝트" };
+	
+	sort(begin(name), end(name), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	for (const STRING& n : name)
+		cout << n << endl;
+
+	
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:55:06 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//		내가 만든 클래스가 자원을 할당받는 다면 (모든 이야기는 여기에서 시작)
+//				1. 생성자에서 자원을 할당받는다 ( RAII )
+//				2. 소멸자에서 자원을 반환한다.
+//				3. 복사 생성자에서 만들어 깊은 복사를 한다.
+//				4. 복사 할당연산자를 만들어 깊은 복사를 한다.
+//				5. 이동생성자를 만들어 복사보다 효율적인 동작이 되도록한다.
+//				6.이동할당연산자를 잊지말고 만들어야 한다.
+//				
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) : num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other) {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+//[문제] name을 길이 내림차순으로 정렬 한 후 
+// 화면에 출력하라.(20분)
+
+int main()
+{
+	STRING name[5]{ "파일","GIT","창","도움말","프로젝트" };
+	
+	sort(begin(name), end(name), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	for (const STRING& n : name)
+		cout << n << endl;
+
+	
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:56:30 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//		내가 만든 클래스가 자원을 할당받는 다면 (모든 이야기는 여기에서 시작)
+//				1. 생성자에서 자원을 할당받는다 ( RAII )
+//				2. 소멸자에서 자원을 반환한다.
+//				3. 복사 생성자에서 만들어 깊은 복사를 한다.
+//				4. 복사 할당연산자를 만들어 깊은 복사를 한다.
+//				5. 이동생성자를 만들어 복사보다 효율적인 동작이 되도록한다.
+//				6.이동할당연산자를 잊지말고 만들어야 한다.
+//				
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) noexcept: num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other)noexcept {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+//[문제] name을 길이 내림차순으로 정렬 한 후 
+// 화면에 출력하라.(20분)
+
+int main()
+{
+	STRING name[5]{ "파일","GIT","창","도움말","프로젝트" };
+	
+	sort(begin(name), end(name), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	for (const STRING& n : name)
+		cout << n << endl;
+
+	
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-05 오후 11:58:20 화요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//		내가 만든 클래스가 자원을 할당받는 다면 (모든 이야기는 여기에서 시작)
+//				1. 생성자에서 자원을 할당받는다 ( RAII )
+//				2. 소멸자에서 자원을 반환한다.
+//				3. 복사 생성자에서 만들어 깊은 복사를 한다.
+//				4. 복사 할당연산자를 만들어 깊은 복사를 한다.
+//				5. 이동생성자를 만들어 복사보다 효율적인 동작이 되도록한다.
+//				6.이동할당연산자를 잊지말고 만들어야 한다.
+//				
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) noexcept: num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other)noexcept {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+//[문제] name을 길이 내림차순으로 정렬 한 후 
+// 화면에 출력하라.(20분)
+
+int main()
+{
+	STRING name[5]{ "파일","GIT","창","도움말","프로젝트" };
+	//3학년 기출 , 파일에 기록되어있고 정렬..중간고사준비 
+	
+	sort(begin(name), end(name), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	for (const STRING& n : name)
+		cout << n << endl;
+
+	
+
+	save("1.cpp");
+}
