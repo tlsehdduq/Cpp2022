@@ -16844,3 +16844,2034 @@ int main()
 
 	save("1.cpp");
 }
+------------------------------------------------
+저장시간 - 2022-04-08 오후 8:58:59 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            9주 2일차        
+// 
+//		표준string과 유사한 기능을 갖는 STRING을 만들며 
+//		 class 설계에 필요한 것들을 학습
+//		STRING -  자원을 관리하는 class
+//		이동생성자 - move constructor
+//		이동 할당 연산자 - move operator = 
+// 
+//		내가 만든 클래스가 자원을 할당받는 다면 (모든 이야기는 여기에서 시작)
+//				1. 생성자에서 자원을 할당받는다 ( RAII )
+//				2. 소멸자에서 자원을 반환한다.
+//				3. 복사 생성자에서 만들어 깊은 복사를 한다.
+//				4. 복사 할당연산자를 만들어 깊은 복사를 한다.
+//				5. 이동생성자를 만들어 복사보다 효율적인 동작이 되도록한다.
+//				6.이동할당연산자를 잊지말고 만들어야 한다.
+//				
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include"save.h"
+
+using namespace std;
+
+// { 문제 ] 다음 main()이 문제없이 실행되도록 class String을 코딩을 하라
+// main()이 수정되면 안된다.
+
+class STRING {
+	size_t num{};			//저장한 글자수
+	char* p{};			//글자가 있는 메모리
+public:
+
+	STRING() {
+		cout << "디폴트 생성자() - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	STRING(const char* str) : num{ strlen(str) } {
+		p = new char[num];
+
+		memcpy(p, str, num);
+
+		cout << "생성자(const char*) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	~STRING() {
+		cout << "소멸자 갯수 " << num << " , 주소: " << (void*)p << endl;
+		delete[] p;
+	}
+
+	STRING(const STRING& other) : num{ other.num } {
+		p = new char[num];
+
+		memcpy(p, other.p, num * sizeof(char));
+		cout << "복사 생성자(const STRING&) - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+	STRING& operator= (const STRING& other) {
+		if (this == &other) {
+			return *this;
+		}
+
+		delete[] p;
+		num = other.num;
+		p = new char[num];
+
+		memcpy(p, other.p, num);
+
+		cout << "복사할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+
+		return *this;
+	}
+	//이동 생성자
+	STRING(STRING&& other) noexcept: num{ other.num },p{ other.p } {
+		other.num = 0;
+		other.p = nullptr;
+		cout << "이동생성자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	//이동할당연산자
+	STRING& operator=(STRING&& other)noexcept {
+		if (this == &other)
+			return *this;
+
+		delete[] p;
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		cout << "이동할당연산자 - 갯수 " << num << " , 주소: " << (void*)p << endl;
+	}
+
+	// 연산자 오버로딩
+	STRING operator+ (const STRING& rhs) const {
+
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		return temp;
+
+	}
+
+	size_t size() const {
+		return num;
+	}
+
+	friend ostream& operator<<(ostream&, const STRING&);
+};
+
+// 입출력함수는 firend로 사용한다.
+ostream& operator<<(ostream& os, const STRING& s)
+{
+	for (int i = 0; i < s.num; i++) {
+		os << s.p[i];
+	}
+	return os;
+}
+
+//자원을 관리하는 클래스는
+//자기가 관리하는 자원을 이동 시킬 수도 있다.
+// 이동은 복사보다 효율적인 동작이 될 수 있다.
+
+//[문제] name을 길이 내림차순으로 정렬 한 후 
+// 화면에 출력하라.(20분)
+
+int main()
+{
+	STRING name[5]{ "파일","GIT","창","도움말","프로젝트" };
+	//3학년 기출 , 파일에 기록되어있고 정렬..중간고사준비 
+	
+	sort(begin(name), end(name), [](const STRING& a, const STRING& b) {
+		return a.size() > b.size();
+		});
+
+	for (const STRING& n : name)
+		cout << n << endl;
+
+	
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:43:13 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;
+	double Speed{};
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	
+};
+	
+//operator<<(ostream& os,const Dog)
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	//cout << a << endl;				//이름이 없어요, 0
+	//cout << b << endl;				//코코, 0
+	//cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:43:39 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;
+	double Speed{};
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	
+};
+	
+//operator<<(ostream& os,const Dog)
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	//cout << a << endl;				//이름이 없어요, 0
+	//cout << b << endl;				//코코, 0
+	//cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:43:53 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;
+	double Speed{};
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	
+};
+	
+//operator<<(ostream& os,const Dog)
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(string) << endl;
+
+	//cout << a << endl;				//이름이 없어요, 0
+	//cout << b << endl;				//코코, 0
+	//cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:43:59 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;
+	double Speed{};
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	
+};
+	
+//operator<<(ostream& os,const Dog)
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(double) << endl;
+
+	//cout << a << endl;				//이름이 없어요, 0
+	//cout << b << endl;				//코코, 0
+	//cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:46:00 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	friend ostream operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+}
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	//cout << a << endl;				//이름이 없어요, 0
+	//cout << b << endl;				//코코, 0
+	//cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 9:48:12 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+
+	}
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	cout << a << endl;				//이름이 없어요, 0
+	cout << b << endl;				//코코, 0
+	cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:01:35 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+// 생성시 개가 짖도록 하라.
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME | SND_ASYNC);
+	}
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	cout << a << endl;				//이름이 없어요, 0
+	cout << b << endl;				//코코, 0
+	cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:02:30 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+// 생성시 개가 짖도록 하라.
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+int main()
+{
+	Dog a;
+	Dog b{ "코코" };
+	Dog c{ "보리" ,40000/3600};
+
+	cout << "class Dog 크기 - " << sizeof(Dog) << endl;
+
+	cout << a << endl;				//이름이 없어요, 0
+	cout << b << endl;				//코코, 0
+	cout << c << endl;				//보리, 11.1
+
+
+	save("1.cpp");
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:03:40 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+
+using namespace std;
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] main 수정없이 실행되도록 class Dog를 코딩하라(20분)
+// 생성시 개가 짖도록 하라.
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+int main()
+{
+
+	Dog* p = new Dog[5];
+
+	save("1.cpp");
+
+	delete[] p;
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:17:32 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed}{
+		bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+	
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[3];
+	
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (auto& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt) + "호");
+		++cnt;
+	}
+	for (auto dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:18:33 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed}{
+		bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+	
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[3];
+	
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for ( Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt) + "호");
+		++cnt;
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:19:03 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed}{
+		bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+	
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+	
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for ( Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt) + "호");
+		++cnt;
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:20:09 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed}{
+		bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+	
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+	
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for ( Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre));
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:20:46 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		bark();
+	}
+	Dog(string name, double speed) : Name{ name },Speed{ speed } {
+		bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed}{
+		bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+	
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+	
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+	
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for ( Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre)/ 3600);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:22:19 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	static int cnt;
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		if (!(cnt++ %100))
+			bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+	Dog(string name, double speed) : Name{ name }, Speed{ speed } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed }{
+		if (!(cnt++ % 100))
+			bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+
+int Dog::cnt{};
+
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre) / 3600);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:22:35 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	static int cnt;
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		if (!(cnt++ %100))
+			bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+	Dog(string name, double speed) : Name{ name }, Speed{ speed } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed }{
+		if (!(cnt++ % 100))
+			bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+
+int Dog::cnt{};
+
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[101];
+
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre) / 3600);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:29:24 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 1일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	static int cnt;
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		if (!(cnt++ %100))
+			bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+	Dog(string name, double speed) : Name{ name }, Speed{ speed } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed }{
+		if (!(cnt++ % 100))
+			bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+	//속도를 읽어온다 
+	double getSpeed() const {
+		return Speed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+
+int Dog::cnt{};
+
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre) / 3600);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	cout << "키를 누르면 경주를 시작합니다.";
+	char c;
+	cin >> c;
+
+	double distance[10]{};
+	while (true) {
+		// 모든 개를 1초간 달린 거리를 합산한다.
+		for (int i = 0; i < size(dogs); ++i) {
+			distance[i] += dogs[i].getSpeed();
+		}
+		// 1km를 넘게 달린 개가 있다면 화면출력하고 즉시 경주를 중단한다.
+
+		for (int i = 0; i < size(dogs); ++i) {
+			if (1000 <= distance[i]) {
+				cout << "결승점 도착 - " << dogs[i] << endl;
+				break;
+			}
+		}
+		break;
+	}
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:41:04 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	static int cnt;
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		if (!(cnt++ %100))
+			bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+	Dog(string name, double speed) : Name{ name }, Speed{ speed } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed }{
+		if (!(cnt++ % 100))
+			bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+	//속도를 읽어온다 
+	double getSpeed() const {
+		return Speed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+
+int Dog::cnt{};
+
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre) / 3600);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	cout << "키를 누르면 경주를 시작합니다."; 
+	char c;
+	cin >> c;
+
+	double distance[10]{};
+
+	bool flag{ true };
+	while (flag) {
+		// 모든 개를 1초간 달린 거리를 합산한다.
+		for (int i = 0; i < size(dogs); ++i) {
+			distance[i] += dogs[i].getSpeed();
+		}
+		// 1km를 넘게 달린 개가 있다면 화면출력하고 즉시 경주를 중단한다.
+
+		for (int i = 0; i < size(dogs); ++i) {
+			if (1000 <= distance[i]) {
+				cout << "결승점 도착 - 달린거리:  "<<distance[i] << "우승견 : " << dogs[i] << endl;
+				flag = false;
+			}
+		}
+	}
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-08 오후 10:42:41 금요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+#include<Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+#include<random>
+
+using namespace std;
+
+
+class Dog {
+	string Name;				// 32
+	double Speed{};		// 8
+	static int cnt;
+public:
+	Dog() : Name{ "이름이 없어요" }, Speed{ 0 } {
+		if (!(cnt++ %100))
+			bark();
+	}
+	Dog(string name) : Name{ name }, Speed{ 0 } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+	Dog(string name, double speed) : Name{ name }, Speed{ speed } {
+		if (!(cnt++ % 100))
+			bark();
+	}
+
+	// 순전히 이 함수가 불리나 관찰하기 위해 작성하였다.
+	Dog(const Dog& other) : Name{ other.Name }, Speed{ other.Speed }{
+		if (!(cnt++ % 100))
+			bark();
+	}
+	// 이름을 변경
+	void set_Name(string newName) {
+		Name = newName;
+	}
+
+	void set_Speed(double newSpeed) {
+		Speed = newSpeed;
+	}
+	//속도를 읽어온다 
+	double getSpeed() const {
+		return Speed;
+	}
+
+	void bark() {
+		// 개가 짖는 소리를 낸다.
+		PlaySound(L"bark.wav", 0, SND_FILENAME);
+	}
+
+
+
+	friend ostream& operator<<(ostream& os, const Dog& dog);
+};
+
+int Dog::cnt{};
+
+ostream& operator<<(ostream& os, const Dog& dog)
+{
+	os << dog.Name << "," << dog.Speed;
+	return os;
+}
+
+// [상황] Dog 여러마리가 서로 경주하는 게임을 만들려고 한다.
+// 1. class Dog를 코딩해보자
+//		멤버변수	-  이름, 속도, 
+//		멤버함수	-	달린다
+//		
+
+// [문제] class Dog 객체 10개를 만들어라.
+// 각 객체의 이름과 속도를 랜덤값으로 생성하자.
+// 속도는 시속 [20000, 50000] 값으로 설정하라.
+//  경주를 시작하고 1초 경과시마다 각 객체가 달린 거리를 계산하고
+// 1km 거리를 먼저 달리는 Dog 객체를 출력하라. 
+
+default_random_engine dre;
+uniform_int_distribution<int> uid{ 20000,50000 };
+
+int main()
+{
+	Dog dogs[10];
+
+	// 각 Dog의 이름과 속도를 결정한다.
+
+	int cnt{};
+	for (Dog& dog : dogs) {
+		dog.set_Name(string("Dog") + to_string(cnt++) + "호");
+		dog.set_Speed(uid(dre) / 3600.00);
+	}
+	for (const Dog& dog : dogs)
+		cout << dog << endl;
+
+	cout << "키를 누르면 경주를 시작합니다."; 
+	char c;
+	cin >> c;
+
+	double distance[10]{};
+
+	bool flag{ true };
+	while (flag) {
+		// 모든 개를 1초간 달린 거리를 합산한다.
+		for (int i = 0; i < size(dogs); ++i) {
+			distance[i] += dogs[i].getSpeed();
+		}
+		// 1km를 넘게 달린 개가 있다면 화면출력하고 즉시 경주를 중단한다.
+
+		for (int i = 0; i < size(dogs); ++i) {
+			if (1000 <= distance[i]) {
+				cout << "결승점 도착 - 달린거리:  "<<distance[i] << "우승견 : " << dogs[i] << endl;
+				flag = false;
+			}
+		}
+	}
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-09 오전 2:01:32 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+
+#include"save.h"
+
+
+using namespace std;
+
+
+
+
+int main()
+{
+	int a{};
+	int b{ 10 };
+	int c{ a };
+
+	a = b = c;
+	cout << a << b << c << endl;
+
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-09 오전 2:14:44 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+class INT {
+	string str;
+	int num;
+
+public:
+	INT(){};
+	INT(int n) : num{ n } {};
+
+	INT& operator=(const INT& other) {
+		return *this;
+	}
+
+	friend ostream& operator<<(ostream& os, const INT& n);
+};
+ostream& operator<<(ostream& os,const INT& n) {
+	os << n.num;
+	return os;
+}
+
+//[문제] 다음 main()이 문제없이 실행되도록 class
+
+int main()
+{
+	INT a{};
+	INT b{ 10 };
+	INT c{ a };
+	a = c = b;
+	cout << a << b << c << endl;		
+	//10 ,10, 10
+	save("1.cpp");
+
+}
+
+저장시간 - 2022-04-09 오전 2:21:03 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include<string>
+#include"save.h"
+
+using namespace std;
+
+class INT {
+
+	string str;
+	int num;
+
+public:
+	INT() :num{}{};
+	INT(int n) : num{ n } {};
+
+	INT(const INT& other) : num{ other.num } {};
+
+	INT& operator=(const INT& other) {
+		num = other.num;
+		return *this;
+	}
+
+	friend ostream& operator<<(ostream& os, const INT& n);
+};
+ostream& operator<<(ostream& os,const INT& n) {
+	os << n.num;
+	return os;
+}
+
+//[문제] 다음 main()이 문제없이 실행되도록 class
+
+int main()
+{
+	INT a{}; // 0 
+	INT b{ 10 };
+	INT c{ a };
+	a = c = b;
+	cout << a  << " " << b << " " << c << endl;
+	//10 ,10, 10
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-09 오전 2:34:08 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include"save.h"
+
+using namespace std;
+
+class INT {
+	int num;
+public:
+	INT() :num{} {};
+	~INT() {};
+	INT(int n) : num{ n } {};
+
+	//INT(const INT& other) : num{ other.num } {};
+
+	//INT& operator=(const INT& other) {
+	//	num = other.num;
+	//	return *this;
+	//} 
+
+	friend ostream& operator<<(ostream& os, const INT& n);
+};
+ostream& operator<<(ostream& os, const INT& n) {
+	os << n.num;
+	return os;
+}
+
+//[문제] 다음 main()이 문제없이 실행되도록 class
+
+int main()
+{
+	INT a{}; // 0 
+	INT b{ 10 };
+	INT c{ a };
+
+	a = c = b;
+
+	cout << a << " " << b << " " << c << endl;
+	
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-09 오전 2:34:29 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include"save.h"
+
+using namespace std;
+
+class INT {
+	int num;
+public:
+	INT() :num{} {};
+	INT(int n) : num{ n } {};
+
+	//INT(const INT& other) : num{ other.num } {};
+
+	//INT& operator=(const INT& other) {
+	//	num = other.num;
+	//	return *this;
+	//} 
+
+	friend ostream& operator<<(ostream& os, const INT& n);
+};
+ostream& operator<<(ostream& os, const INT& n) {
+	os << n.num;
+	return os;
+}
+
+//[문제] 다음 main()이 문제없이 실행되도록 class
+
+int main()
+{
+	INT a{}; // 0 
+	INT b{ 10 };
+	INT c{ a };
+
+	a = c = b;
+
+	cout << a << " " << b << " " << c << endl;
+	
+	save("1.cpp");
+
+}
+------------------------------------------------
+저장시간 - 2022-04-09 오전 2:35:14 토요일
+//-------------------------------------------------------------------------------------------------
+//                                                            10주 2일차        
+//	
+//		class 와 더 친해저보자.			
+// 
+//-------------------------------------------------------------------------------------------------
+
+#include<iostream>
+#include"save.h"
+
+using namespace std;
+
+class INT {
+	int num;
+public:
+	INT() :num{} {};
+	INT(int n) : num{ n } {};
+
+	//INT(const INT& other) : num{ other.num } {};
+
+	//INT& operator=(const INT& other) {
+	//	num = other.num;
+	//	return *this;
+	//} 
+
+	friend ostream& operator<<(ostream& os, const INT& n);
+};
+ostream& operator<<(ostream& os, const INT& n) {
+	os << n.num;
+	return os;
+}
+
+//[문제] 다음 main()이 문제없이 실행되도록 class
+
+int main()
+{
+	int a = 1;
+	
+
+	cout << a++ << endl;
+
+	
+	save("1.cpp");
+
+}
